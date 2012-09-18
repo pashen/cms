@@ -3,7 +3,7 @@
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
 
-  function mm()
+  function _initView()
   {
     
     
