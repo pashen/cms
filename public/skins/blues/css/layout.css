@@ -30,7 +30,7 @@ p {
 #nav {
   background: url("../images/nav.jpg") repeat-x #FD9421;
   height: 2.5em;
-  margin: 0 0 .5em .5em;
+  margin: 0 0 .5em 0;
   padding: .5em;
 }
 
