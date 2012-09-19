@@ -38,7 +38,7 @@ p {
   min-height: 30em;
   margin: 0 0 .5em 0;
   padding: 2em;
-  
+  height: auto;
 }
 
 #subNav, #adminMenu, #userForm {
