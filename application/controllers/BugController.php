@@ -22,25 +22,45 @@ class BugController extends Zend_Controller_Action
     {
         $bugReportForm = new Form_BugReportForm();
         $bugReportForm->setAction('/bug/submit')
-                     ->setMethod('post');
+                      ->setMethod('post');
         
         if ($this->getRequest()->isPost())
         {
           if ($bugReportForm->isValid($this->getRequest()->getPost()))
           {
             // just dump the data for now
-            $data = $bugReportForm->getValues();
-            // process the data
-            var_dump($data);
+            //$data = $bugReportForm->getValues();
+            $bugModel = new Model_Bug();
+            // if model is valid then create a new bug
+            $result = $bugModel->createBug(
+                    $bugReportForm->getValue('author'),
+                    $bugReportForm->getValue('email'),
+                    $bugReportForm->getValue('date'),
+                    $bugReportForm->getValue('url'),
+                    $bugReportForm->getValue('description'),
+                    $bugReportForm->getValue('priority'),
+                    $bugReportForm->getValue('status')
+                    );
+           // if the bug method returns a result
+           // then the bug was successfully created
+            if ($result)
+            {
+              $this->_forward('confirm');
+            }
           }
         }
         $this->view->form = $bugReportForm;
     }
 
+    public function confirmAction()
+    {
+        // action body
+    }
+
+    public function listAction()
+    {
+        // action body
+    }
+
 
 }
-
-
-
-
-
