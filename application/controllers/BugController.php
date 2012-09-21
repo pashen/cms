@@ -60,6 +60,8 @@ class BugController extends Zend_Controller_Action
     public function listAction()
     {
         // action body
+      $bugModel = new Model_Bug();
+      $this->view->bugs = $bugModel->fetchBugs();
     }
 
 
