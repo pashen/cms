@@ -62,6 +62,11 @@ class BugController extends Zend_Controller_Action
         // action body
       $bugModel = new Model_Bug();
       $this->view->bugs = $bugModel->fetchBugs();
+       // get the filter form
+      $listToolsForm = new Form_BugReportListToolsForm();
+      $listToolsForm->setAction('/bug/list')
+                    ->setMethod('post');
+        $this->view->listToolsForm = $listToolsForm;
     }
 
 
