@@ -56,18 +56,45 @@ class BugController extends Zend_Controller_Action
     {
         // action body
     }
-
+   
     public function listAction()
     {
-        // action body
-      $bugModel = new Model_Bug();
-      $this->view->bugs = $bugModel->fetchBugs();
-       // get the filter form
+      // get the filter form
       $listToolsForm = new Form_BugReportListToolsForm();
       $listToolsForm->setAction('/bug/list')
                     ->setMethod('post');
-        $this->view->listToolsForm = $listToolsForm;
+      
+      $this->view->listToolsForm = $listToolsForm;
+      // set the sort and filter criteria. you need to update it to use the request
+      // as thease values can come in from the form post or a url parameter
+      $sort = $this->_request->getParam('sort', null);
+      $filterField= $this->_request->getParam('filter_field', null);
+      $filterValue = $this->_request->getParam('filter');
+      
+      if (!empty($filterField))
+      {
+        $filter[$filterField] = $filterValue;
+      } else {
+        $filter = null;
+      }
+      // now you need to manually set these control values
+      $listToolsForm->getElement('sort')->setValue($sort);
+      $listToolsForm->getElement('filter_field')->setValue($filterField);
+      $listToolsForm->getElement('filter')->setValue($filterValue);
+      // fetch the bug paginator adapter
+      $bugModels = new Model_Bug();
+      $adapter = $bugModels->fetchPaginatorAdapter($filter, $sort);
+      $paginator = new Zend_Paginator($adapter);
+      //show 10 bugs per page
+      $paginator->setItemCountPerPage(10);
+      // get the page number that passed in the request
+      // if none is set then default to page 1
+      $page = $this->_request->getParam('page', 1);
+      $paginator->setCurrentPageNumber($page);
+      // pass the pagnator to the view
+      $this->view->paginator = $paginator;
     }
+    
 
 
 }

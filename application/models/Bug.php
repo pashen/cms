@@ -25,10 +25,29 @@ class Model_Bug extends Zend_DB_Table_Abstract
       return $id;
     }
     
-    public function fetchBugs($filters = array(), $sortfield = null, $limit = null)
+//    public function fetchBugs($filters = array(), $sortfield = null, $limit = null)
+//    {
+//      $select = $this->select();
+//      // add any filters which are set
+//      if (count($filters) > 0)
+//      {
+//        foreach ($filters as $field => $filter)
+//        {
+//          $select->where($field . ' = ? ', $filter);
+//        }
+//      }
+//      // add the sort field is it is set
+//      if (null != $sortfield) 
+//      {
+//        $select->order($sortfield);
+//      }
+//      return $this->fetchAll($select);
+//    }
+    
+    public function fetchPaginatorAdapter($filters = array(), $sortfield = null)
     {
       $select = $this->select();
-      // add any filters which are set
+      // add any filters wich are set
       if (count($filters) > 0)
       {
         foreach ($filters as $field => $filter)
@@ -37,11 +56,13 @@ class Model_Bug extends Zend_DB_Table_Abstract
         }
       }
       // add the sort field is it is set
-      if (null != $sortfield) 
+      if (null != $sortfield)
       {
         $select->order($sortfield);
       }
-      return $this->fetchAll($select);
+      // creates new of the paginator adapter and return it
+      $adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+      return $adapter;
     }
     
 }

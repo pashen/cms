@@ -5,7 +5,7 @@ class Form_BugReportListToolsForm extends Zend_Form
     public function init()
     {
       $options = array(
-          'O' => 'None',
+          '0' => 'None',
           'priority' => 'Rriority',
           'status' => 'Status',
           'date' => 'Date',
